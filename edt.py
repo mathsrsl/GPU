@@ -325,6 +325,11 @@ def isEqual(json_data1, json_data2, semaine=None):
     courses1 = getWeekCourses(json_data1, semaine)
     courses2 = getWeekCourses(json_data2, semaine)
 
+    for entry in courses1:
+        entry.pop("id")
+    for entry in courses2:
+        entry.pop("id")
+
     isEqual = True
 
     if len(courses1) != len(courses2):
