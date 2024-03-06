@@ -38,7 +38,7 @@ def getJSON(username):
             events.append(event)
             id += 1
 
-    # Ajout de l'username dans le JSON
+    # Ajout du username dans le JSON
     events.append({"username": username})
 
     events_json = json.dumps(events)
@@ -225,50 +225,18 @@ def createEDT(json_data, semaine=None, save=False):
                               (10, 10, 10), font=font)
 
             if end_time - start_time >= timedelta(hours=2) and coursProf.split()[0] != "_DS":
-                if coursProf.split()[-1] == "acundege":
-                    draw.text((event_x + 5, event_y_start + 5),
-                              f"\n\n\n\nAlors les tables\nde karnaugh",
-                              (10, 10, 10), font=font)
-
-                if coursProf.split()[-1] == "dbojovic":
-                    draw.text((event_x + 5, event_y_start + 5),
-                              f"\n\n\n\nAttention les oreilles",
-                              (10, 10, 10), font=font)
-
-                if coursProf.split()[-1] == "fmognol":
-                    draw.text((event_x + 5, event_y_start + 5),
-                              f"\n\n\n\nDura lex, sed lex",
-                              (10, 10, 10), font=font)
-
-                if coursProf.split()[-1] == "courtois":
-                    draw.text((event_x + 5, event_y_start + 5),
-                              f"\n\n\n\nCarrefour",
-                              (10, 10, 10), font=font)
-
-                if coursProf.split()[-1] == "sarmient":
-                    draw.text((event_x + 5, event_y_start + 5),
-                              f"\n\n\n\nLe goat",
-                              (10, 10, 10), font=font)
-
                 if coursProf.split()[-1] == "_NE":
                     draw.text((event_x + 5, event_y_start + 5),
                               f"\n\n\n\nChomage",
                               (10, 10, 10), font=font)
 
-                if coursProf.split()[-1] == "pourcelo":
-                    draw.text((event_x + 5, event_y_start + 5),
-                              f"\n\n\n\nAlors ? Ca Wims ?",
-                              (10, 10, 10), font=font)
 
-                if coursProf.split()[-1] == "rey":
-                    draw.text((event_x + 5, event_y_start + 5),
-                              f"\n\n\n\nLa rey-cursivité",
-                              (10, 10, 10), font=font)
+                # --- Possibilité de rajouter des commentaires en spécifiant le nom de l'enseignant : ---
 
-                if coursProf.split()[-1] == "bilancin":
-                    draw.text((event_x + 5, event_y_start + 5),
-                              f"\n\n\n\nGilou",
-                              (10, 10, 10), font=font)
+                # elif coursProf.split()[-1] == "NomEnseignant":
+                #     draw.text((event_x + 5, event_y_start + 5),
+                #               f"\n\n\n\nCommentaire",
+                #               (10, 10, 10), font=font)
 
 
     # Remettre le nom d'utilisateur dans le JSON
