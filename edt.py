@@ -6,6 +6,7 @@ import icalendar
 from PIL import Image, ImageDraw, ImageFont
 import datetime
 from dateutil import parser, tz
+import re
 
 
 def getJSON(username):
@@ -84,23 +85,27 @@ def createEDT(json_data, semaine=None, save=False):
 
     # Définir des couleurs pour des cours spécifiques
     course_colors = {
-        'R2.01': (255, 204, 204),
-        'R2.02': (204, 255, 204),
-        'R2.03': (204, 204, 255),
-        'R2.04': (255, 204, 255),
-        'R2.05': (204, 255, 255),
-        'R2.06': (255, 255, 204),
-        'R2.07': (255, 204, 153),
-        'R2.08': (204, 153, 255),
-        'R2.09': (255, 153, 204),
-        'R2.10': (153, 204, 255),
-        'R2.11': (255, 204, 102),
-        'R2.12': (204, 102, 255),
-        'R2.13': (255, 102, 204),
-        'R2.14': (102, 204, 255),
-        'S2.01': (255, 255, 153),
-        'S2.03': (255, 153, 255),
-        'S2.05': (153, 255, 255),
+        r'R(\d+\.01)': (255, 204, 204),
+        r'R(\d+\.02)': (204, 255, 204),
+        r'R(\d+\.03)': (204, 204, 255),
+        r'R(\d+\.04)': (255, 204, 255),
+        r'R(\d+\.05)': (204, 255, 255),
+        r'R(\d+\.06)': (255, 255, 204),
+        r'R(\d+\.07)': (255, 204, 153),
+        r'R(\d+\.08)': (204, 153, 255),
+        r'R(\d+\.09)': (255, 153, 204),
+        r'R(\d+\.10)': (153, 204, 255),
+        r'R(\d+\.11)': (255, 204, 102),
+        r'R(\d+\.12)': (204, 102, 255),
+        r'R(\d+\.13)': (255, 102, 204),
+        r'R(\d+\.14)': (102, 204, 255),
+
+        r'S(\d+\.01)': (255, 255, 153),
+        r'S(\d+\.02)': (153, 255, 153),
+        r'S(\d+\.03)': (255, 153, 255),
+        r'S(\d+\.04)': (153, 153, 255),
+        r'S(\d+\.05)': (153, 255, 255),
+
         'Unknown': (200, 200, 200)  # Couleur pour les cours inconnus
     }
 
@@ -185,7 +190,22 @@ def createEDT(json_data, semaine=None, save=False):
         start_hour = start_time.hour - 8
         end_hour = end_time.hour - 8
 
-        course_color = course_colors.get(entry["description"].split()[-1].strip("()"), course_colors["Unknown"])
+        #course_color = course_colors.get(entry["description"].split()[-1].strip("()"), course_colors["Unknown"])
+
+        course_key = entry["description"].split()[-1].strip("()")
+
+        # Chercher une correspondance avec les motifs réguliers
+        course_color = None
+        for pattern, color in course_colors.items():
+            if re.search(pattern, course_key):
+                course_color = color
+                break
+
+        if course_color is None: # Si aucune correspondance n'a été trouvée, couleur par défaut (gris)
+            course_color = course_colors["Unknown"]
+
+
+
 
         event_x = day_index * (img_width // len(days_of_week) - 10) + 50
 
@@ -374,7 +394,6 @@ else:
         createEDT(json_string, semaineInput, save=True)
     else:
         createEDT(json_string, semaineInput)
-
 
 
 
